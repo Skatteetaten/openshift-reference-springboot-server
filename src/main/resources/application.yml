@@ -34,8 +34,10 @@ spring:
     username: ${refapp.datasource.username:MFBDNLMIQTWTWNWEQOMLPAAPJDKSYV}
     password: ${refapp.datasource.password:qWieNxGpdFcjVOHPiaCTcmJqYdgYkk}
 
+
 management:
     port: 8081
+
 
 logging:
     pattern:
