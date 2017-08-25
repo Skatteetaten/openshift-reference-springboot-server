@@ -36,7 +36,7 @@ public final class Operation  {
     }
 
     public  <T> T withMetrics(String name, String type, Supplier<T> s) {
-        long startTime = System.nanoTime();
+        long startTime = System.currentTimeMillis();
 
         String result = "success";
         try {
@@ -49,11 +49,13 @@ public final class Operation  {
                 Tag.of("type", type),
                 Tag.of("name", name));
 
+            double time = (System.currentTimeMillis() - startTime);
+            double time2=time/1000;
             registry.summaryBuilder("operations")
                .histogram(CumulativeHistogram.buckets(linear(0, 100, 20), TimeUnit.MILLISECONDS))
                 .tags(tags)
                 .description("Manual operation that we want statistics on")
-                .create().record((TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime)));
+                .create().record(time2);
 
         }
 
