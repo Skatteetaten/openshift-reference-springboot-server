@@ -4,7 +4,6 @@ import static java.util.Arrays.asList;
 
 import static io.micrometer.core.instrument.stats.hist.CumulativeHistogram.linear;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -13,17 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
-import io.micrometer.core.instrument.binder.MeterBinder;
 import io.micrometer.core.instrument.stats.hist.CumulativeHistogram;
-import io.micrometer.core.instrument.stats.quantile.CKMSQuantiles;
-import io.prometheus.client.Histogram;
-import io.prometheus.client.SimpleTimer;
 
 @Component
-public final class Operation  {
+public final class Operation {
 
     private static final Logger logger = LoggerFactory.getLogger(Operation.class);
     private MeterRegistry registry;
@@ -31,12 +25,13 @@ public final class Operation  {
     public Operation(MeterRegistry registry) {
         this.registry = registry;
     }
+
     public <T> T withMetrics(String name, Supplier<T> s) {
         return withMetrics(name, "operation", s);
     }
 
-    public  <T> T withMetrics(String name, String type, Supplier<T> s) {
-        long startTime = System.currentTimeMillis();
+    public <T> T withMetrics(String name, String type, Supplier<T> s) {
+        long startTime = System.nanoTime();
 
         String result = "success";
         try {
@@ -49,18 +44,52 @@ public final class Operation  {
                 Tag.of("type", type),
                 Tag.of("name", name));
 
-            double time = (System.currentTimeMillis() - startTime);
-            double time2=time/1000;
-            registry.summaryBuilder("operations")
-               .histogram(CumulativeHistogram.buckets(linear(0, 100, 20), TimeUnit.MILLISECONDS))
+            registry.timerBuilder("operations")
+                .histogram(CumulativeHistogram.buckets(linear(0, 100, 20), TimeUnit.MILLISECONDS))
                 .tags(tags)
-                .description("Manual operation that we want statistics on")
-                .create().record(time2);
+                .description("Manual operation that we want metrics on")
+                .create().record(System.nanoTime() - startTime, TimeUnit.NANOSECONDS);
 
         }
 
     }
 
+    public void size(String name, int number) {
+        size(name, "", number);
+    }
 
+    public void size(String name, String type, int number) {
+
+        List<Tag> tags = asList(Tag.of("name", name),
+            Tag.of("type", type));
+
+        registry.gauge("sizes", tags, number);
+    }
+
+    public void status(String name, StatusValue value) {
+
+        List<Tag> tags = asList(Tag.of("name", name));
+
+        registry.gauge("statuses", tags, value.getValue());
+
+    }
+
+    public enum StatusValue {
+
+        OK(0),
+        WARNING(1),
+        CRITICAL(2),
+        UNKNOWN(3);
+
+        private int value;
+
+        StatusValue(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
 
 }
