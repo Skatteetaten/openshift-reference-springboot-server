@@ -14,7 +14,7 @@ def systemtest = [
 ]
 
 def overrides = [
-  affiliation: "paas"
+  affiliation: "paas",
   piTests: false,
   credentials: "github",
   sonarQube: false,
