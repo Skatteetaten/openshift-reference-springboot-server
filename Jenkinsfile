@@ -1,16 +1,24 @@
 #!/usr/bin/env groovy
 
-def jenkinsfile
-def version='v3.1.0'
+def version = 'v3.1.1'
 fileLoader.withGit('https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git', version) {
    jenkinsfile = fileLoader.load('templates/leveransepakke')
 }
 
-def overrides = [
-  piTests: false,
-  // We had to disable sonar integration because Jenkins terminated the report generation and failed the build
-  // completely. There is a Jira task (https://aurora/jira/browse/AOS-1951) to investigate the issue.
-  sonarQube: false,
-  credentialsId: "github"
+def systemtest = [
+  name : 'systemtest',
+  setupCommand: """aoc setup openshift/@TEST_NAME@ \
+                   -f about.json '{ "envName" : "-@TEST_NAME@-@TEST_ID@" }' \
+                   -f reference.json '{ "build" : { "VERSION" : "@TEST_ID@" }}'""",
+   npmScripts : ['test']
 ]
+
+def overrides = [
+  affiliation: "paas"
+  piTests: false,
+  credentials: "github",
+  sonarQube: false,
+  testStages:[systemtest]
+  ]
+
 jenkinsfile.run(version, overrides)

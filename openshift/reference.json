@@ -1,10 +1,10 @@
 {
   "name" : "refapp",
-  "replicas" : 3,
+  "replicas" : 1,
   "flags" : ["rolling", "route", "cert" ],
   "build" : {
-    "GROUP_ID":"ske.aurora.openshift.referanse",
-    "ARTIFACT_ID":"openshift-referanse-springboot-server",
+    "GROUP_ID":"ske.aurora.openshift",
+    "ARTIFACT_ID":"openshift-reference-springboot-server",
     "VERSION" : 1
   },
   "deploy" : {
