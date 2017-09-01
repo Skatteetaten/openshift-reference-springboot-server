@@ -1,15 +1,16 @@
 #!/usr/bin/env groovy
 
-def version = 'v3.1.1'
+def version = 'feature/AOS-1750'
 fileLoader.withGit('https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git', version) {
    jenkinsfile = fileLoader.load('templates/leveransepakke')
 }
 
 def systemtest = [
   name : 'systemtest',
-  setupCommand: """aoc setup openshift/@TEST_NAME@ \
-                   -f about.json '{ "envName" : "-@TEST_NAME@-@TEST_ID@" }' \
-                   -f reference.json '{ "build" : { "VERSION" : "@TEST_ID@" }}'""",
+  overrides : [
+     "about.json":  '{ "envName" : "@ENV_NAME_SUFFIX@" }',
+     "referanse.json": '{ "version" : "@TEST_ID@" }'
+   ],
    npmScripts : ['test']
 ]
 
