@@ -1,0 +1,38 @@
+{
+	"variables": [],
+	"info": {
+		"name": "fetchCounter",
+		"_postman_id": "f24b09dc-8119-30a9-01cb-4a679ac1f486",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "fetchCounter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"        tests[\"Return number\"] = !isNaN(responseBody);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{reference}}/api/counter",
+				"method": "GET",
+				"header": [
+					{
+						"key": "korrelasjonsid",
+						"value": "isolertsystemtest-{{$guid}}",
+						"description": ""
+					}
+				],
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
