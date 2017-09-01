@@ -21,7 +21,7 @@
 				}
 			],
 			"request": {
-				"url": "http://{{reference}}/api/counter",
+				"url": "http://{{referanse}}/api/counter",
 				"method": "GET",
 				"header": [
 					{
