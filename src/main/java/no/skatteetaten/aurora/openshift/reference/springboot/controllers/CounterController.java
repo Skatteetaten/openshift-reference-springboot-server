@@ -26,11 +26,7 @@ public class CounterController {
     @Timed
     @GetMapping("/api/counter")
     public String counter() {
-
-        String value =
-            service.getAndIncrementCounter().get("value").toString();
-
-        return value;
+        return service.getAndIncrementCounter().get("value").toString();
     }
 
 }
