@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ske.aurora.openshift</groupId>
+  <groupId>no.skatteetaten.aurora.openshift</groupId>
   <artifactId>openshift-reference-springboot-server</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -236,10 +236,10 @@
         <artifactId>pitest-maven</artifactId>
         <configuration>
           <targetClasses>
-            <param>ske.aurora.openshift.referanse.*</param>
+            <param>no.skatteetaten.aurora.openshift.reference.*</param>
           </targetClasses>
           <targetTests>
-            <param>ske.aurora.openshift.referanse.*</param>
+            <param>no.skatteetaten.aurora.openshift.reference.*</param>
           </targetTests>
         </configuration>
       </plugin>
