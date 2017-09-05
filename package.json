@@ -5,7 +5,7 @@
   "scripts": {
     "test": "npm-run-all fetchCounter",
     "version": "newman --version",
-    "fetchCounter": "newman run -e st-refapp/postman/environment.json systemtest/postman/fetchCounter.json"
+    "fetchCounter": "newman run -e st-refapp/postman/environment.json st-refapp/postman/fetchCounter.json"
   },
   "dependencies": {
     "newman": "3.6.0",
