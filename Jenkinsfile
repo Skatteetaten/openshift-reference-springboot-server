@@ -6,7 +6,8 @@ fileLoader.withGit('https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.g
 }
 
 def systemtest = [
-  name : 'systemtest',
+  auroraConfigEnvironment : 'systemtest',
+  applicationUnderTest : "referanse",
   overrides : [
      '''about.json:{ "envName" : "@ENV_NAME_SUFFIX@" }''',
      '''referanse.json:{ "version" : "@TEST_ID@" }'''
