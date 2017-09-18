@@ -36,9 +36,9 @@ spring:
     name: referanseapp
   datasource:
     # id: 02150c29-6ab9-4917-bd56-1ba63d4f46d5"
-    url: jdbc:oracle:thin:@uil0map-drivein-db02:1521/dbhotel
-    username: MFBDNLMIQTWTWNWEQOMLPAAPJDKSYV
-    password: qWieNxGpdFcjVOHPiaCTcmJqYdgYkk
+    url: ${refapp.datasource.url:jdbc:oracle:thin:@uil0map-drivein-db02:1521/dbhotel}
+    username: ${refapp.datasource.username:MFBDNLMIQTWTWNWEQOMLPAAPJDKSYV}
+    password: ${refapp.datasource.password:qWieNxGpdFcjVOHPiaCTcmJqYdgYkk}
 
 
 management:
