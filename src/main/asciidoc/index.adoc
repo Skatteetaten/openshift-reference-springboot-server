@@ -82,3 +82,14 @@ include::{snippets}/example-sometimes-success-get/httpie-request.adoc[]
 *Response:*
 include::{snippets}/example-sometimes-success-get/response-fields.adoc[]
 include::{snippets}/example-sometimes-success-get/http-response.adoc[]
+
+
+== Counter
+
+The counter resource is used to illustrate basic database functionality
+
+include::{snippets}/counter-get/httpie-request.adoc[]
+
+*Response:*
+include::{snippets}/counter-get/response-fields.adoc[]
+include::{snippets}/counter-get/http-response.adoc[]
