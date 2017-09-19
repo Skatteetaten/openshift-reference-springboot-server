@@ -56,41 +56,8 @@ The API tries to follow standard HTTP and ReST conventions in how it uses HTTP s
 
 
 [resources]
-= Resources
+== Resources
 
-== Example
-
-The example resource is used for illustrating features of the Aurora Spring Boot starter.
-
-*The IP endpoint:*
-include::{snippets}/example-ip-get/httpie-request.adoc[]
-
-*Response:*
-include::{snippets}/example-ip-get/response-fields.adoc[]
-include::{snippets}/example-ip-get/http-response.adoc[]
-
-*The "sometimes" endpoint when failing:*
-include::{snippets}/example-sometimes-fail-get/httpie-request.adoc[]
-
-*Response:*
-include::{snippets}/example-sometimes-fail-get/response-fields.adoc[]
-include::{snippets}/example-sometimes-fail-get/http-response.adoc[]
-
-*The "sometimes" endpoint when succeeding:*
-include::{snippets}/example-sometimes-success-get/httpie-request.adoc[]
-
-*Response:*
-include::{snippets}/example-sometimes-success-get/response-fields.adoc[]
-include::{snippets}/example-sometimes-success-get/http-response.adoc[]
-
-
-== Counter
-
-The counter resource is used to illustrate basic database functionality. The GET request is
-not idempotent. Any request to the resource will increment the counter by 1.
-
-include::{snippets}/counter-get/httpie-request.adoc[]
-
-*Response:*
-include::{snippets}/counter-get/response-fields.adoc[]
-include::{snippets}/counter-get/http-response.adoc[]
+:leveloffset: +2
+include::example.adoc[]
+include::counter.adoc[]
