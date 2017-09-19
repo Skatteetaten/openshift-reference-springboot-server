@@ -1,4 +1,4 @@
-= Openshift Referanse Spring Boot Server
+= Openshift Reference Spring Boot Server
 Bent André Solheim <BentAndre.Solheim@skatteetaten.no>
 {version}
 :doctype: book
@@ -8,50 +8,50 @@ Bent André Solheim <BentAndre.Solheim@skatteetaten.no>
 :sectlinks:
 
 [introduction]
-== Introduksjon
+== Introduction
 
-Dette dokumentet gir en oversikt over Openshift Referanse Spring Boot Server applikasjonen og API'et.
+This document gives an overview of the Openshift Reference Spring Boot Server application and its API.
 
 [[overview]]
-== Oversikt
+== Overview
 
 [[overview-http-verbs]]
-=== HTTP verb
-API'et prøver å følge standard HTTP og ReST konvensjoner i bruk av HTTP verb.
+=== HTTP verbs
+The API tries to follow standard HTTP and ReST conventions in how it uses HTTP verbs.
 |===
-| Verb | Bruk
+| Verb | Usage
 
 | `GET`
-| Brukes til å hente ressurser
+| Used for fetching resources. Idempotent.
 
 | `POST`
-| Brukes til å lage en ny ressurs
+| Used for creating new resources.
 
 | `PUT`
-| Brukes til å oppdatere en ressurs. Kun komplette oppdateringer.
+| Used for updating existing resources. Only full updates (no patches). Idempotent.
 
 | `DELETE`
-| Brukes til å slette en ressurs.
+| Used for deleting existing resources. Idempotent.
 |===
 
 [[overview-http-status-codes]]
-=== HTTP status koder
-API'et prøver å følge standard HTTP og ReST konvensjoner i bruk av HTTP status koder.
+=== HTTP status codes
+The API tries to follow standard HTTP and ReST conventions in how it uses HTTP status codes.
 
 |===
-| Status kode | Bruk
+| Status code | Usage
 
 | `200 OK`
-| Standard svar for vellykket HTTP forespørsel. Selve svaret vil avhenge av hvilket endepunkt som blir brukt.
+| Standard response for successful HTTP requests. The response payload will vary depending on the endpoint used.
 
 | `204 No Content`
-| Forespørselen ble behandlet, men returnerte ikke noen respons.
+| The request was successfully processed but did not return any response.
 
 | `400 Bad Request`
-| Forespørselen kan ikke prosesseres på grunn av en klientside feil (ugyldig parameter eller forespørsel, f.eks.).
+| The request cannot be processed because for client side error (illegal argument or request).
 
 | `404 Not Found`
-| Kunne ikke finne den forespurte ressursen.
+| The requested resource count not be found.
 |===
 
 
