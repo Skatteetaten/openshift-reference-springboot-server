@@ -251,6 +251,12 @@ from the spring-boot documentation for details).
 
 A class, ```AbstractControllerTest```, is included as an example base class for tests that use spring-rest-docs.
 
+When working with the documentation it can be convenient to enable continuous rendering of the asciidoc source.
+This can be done by running the maven goal
+
+    ./mvnw asciidoctor:auto-refresh
+   
+
 # How an application is built
 
 ## Application Configuration and Spring Profiles
