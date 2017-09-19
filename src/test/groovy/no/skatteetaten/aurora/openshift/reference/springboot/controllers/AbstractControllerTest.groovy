@@ -9,12 +9,13 @@ import org.springframework.restdocs.snippet.Snippet
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
+import io.micrometer.spring.web.ControllerMetrics
 import spock.lang.Specification
 
 abstract class AbstractControllerTest extends Specification {
 
   @Rule
-  def JUnitRestDocumentation jUnitRestDocumentation = new JUnitRestDocumentation("target/generated-snippets");
+  JUnitRestDocumentation jUnitRestDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
   MockMvc mockMvc
 
@@ -23,10 +24,9 @@ abstract class AbstractControllerTest extends Specification {
     def controllers = []
     controllers.addAll(controllersUnderTest)
     mockMvc = MockMvcBuilders.standaloneSetup(controllers.toArray())
-        .setControllerAdvice(new ErrorHandler())
+        .setControllerAdvice(new ErrorHandler(Mock(ControllerMetrics)))
         .apply(MockMvcRestDocumentation.documentationConfiguration(jUnitRestDocumentation))
         .build()
-
   }
 
   protected static RestDocumentationResultHandler prettyDoc(String identifier, Snippet... snippets) {

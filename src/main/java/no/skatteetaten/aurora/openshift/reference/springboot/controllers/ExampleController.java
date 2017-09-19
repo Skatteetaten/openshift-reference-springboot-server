@@ -3,6 +3,9 @@ package no.skatteetaten.aurora.openshift.reference.springboot.controllers;
 import static no.skatteetaten.aurora.AuroraMetrics.StatusValue.CRITICAL;
 import static no.skatteetaten.aurora.AuroraMetrics.StatusValue.OK;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -32,31 +35,42 @@ public class ExampleController {
 
     @Timed
     @GetMapping("/api/example/ip")
-    public String ip() {
+    public Map<String, Object> ip() {
         JsonNode forEntity = restTemplate.getForObject("http://httpbin.org/ip", JsonNode.class);
-        return forEntity.get("origin").textValue();
+        Map<String, Object> response = new HashMap<>();
+        response.put("ip", forEntity.get("origin").textValue());
+        return response;
     }
+
     @Timed
     @GetMapping("/api/example/sometimes")
-    public String example() {
+    public Map<String, Object> example() {
         return metrics.withMetrics(SOMETIMES, () -> {
-            long sleepTime = (long) (Math.random() * SECOND);
-
-            try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("Sleep interupted", e);
-            }
-
-            if (sleepTime % 2 == 0) {
+            boolean wasSuccessful = performOperationThatMayFail();
+            if (wasSuccessful) {
                 metrics.status(SOMETIMES, OK);
-                return "sometimes i succeed";
+                Map<String, Object> response = new HashMap<>();
+                response.put("result", "Sometimes I succeed");
+                return response;
             } else {
                 metrics.status(SOMETIMES, CRITICAL);
-                throw new RuntimeException("Sometimes i fail");
+                throw new RuntimeException("Sometimes I fail");
             }
         });
+    }
+
+    protected boolean performOperationThatMayFail() {
+
+        long sleepTime = (long) (Math.random() * SECOND);
+
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Sleep interupted", e);
+        }
+
+        return sleepTime % 2 == 0;
     }
 }
 
