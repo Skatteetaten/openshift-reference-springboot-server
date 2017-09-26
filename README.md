@@ -51,19 +51,13 @@ The application has one starter  [aurora-spring-boot-starter](https://github.com
  - instrument ServerFilter with metrics
  - instrument logback with metrics
  
-There is a starter for testing with spock [aurora-spock-spring-boot-starter](https://github.com/Skatteetaten/aurora-spring-boot-starters/tree/master/aurora-spock)
-
-A starter for working with oracle databases with flyway [aurora-oraclespring-boot-starter](https://github.com/Skatteetaten/aurora-spring-boot-starters/tree/master/aurora-oracle)
-
 In order to auto configure a datasource provided on openshift add the following configuration to your properties file
  
     aurora:
       db: NAME_OF_DB
-       
-All starters are versioned together.
+
 
 ## Log Configuration
-
 
 All Skatteetaten applications should log using the same standard logging pattern. Also, all applications running
 on Openshift has to log to a specific folder in the container for the logs to picked up and automatically indexed in
@@ -121,16 +115,16 @@ preference of the default format which is just milli seconds since Epoc.
 ## Management interface
 
 The management interface is exposed on a seperate port (MANAGEMENT_HTTP_PORT) for security reasons. The main part of
-this is Spring Boot Actuator (with HATEOAS). Most of the endpoints are tured off by default. See the ```resources/application.yml``` file for more details. 
+this is Spring Boot Actuator (with HATEOAS). Most of the endpoints are turned off by default. See the ```resources/application.yml``` file for more details. 
 
-A central component Marjory is deployed in the openshift cluster that aggregate the management interfaces for all 
+A central component Marjory is deployed in the OpenShift cluster that aggregate the management interfaces for all 
 applications and works as a proxy to the hidden management interface. 
 
 The standard management interface consist of the following urls
 
 ###  /info - Information 
 
-The /info endpoint is particularly relevant because it is used by Marjoy  to collect and display information about the application. 
+The /info endpoint is particularly relevant because it is used to collect and display information about the application. 
 Some of that information is maintained and set in the ```application.yml``` file
 (everything under ```info.*``` is exposed as properties), and some is set via maven plugins;
   
@@ -143,11 +137,11 @@ Some of that information is maintained and set in the ```application.yml``` file
   commit id, tags, commit time etc from the commit currently being built. Spring actuator will add this information to
   the info section.
 
-The info endpoint has a dependencies section that list the name of all the external dependices and their static base URL. 
+The info endpoint has a dependencies section that list the name of all the external dependencies and their static base URL. 
 This information will be stored in a CMDB for cause analysis and to chart dependencies in Skatteetatens infrastructure.
 
 The links part of the info endpoint show application specific links to other part of the internal infrastructure in Skatteeaten. 
-The links contains some placeholders that are replaced by Marjory marked with ```{}``` fences.
+The links contains some placeholders that are replaced marked with ```{}``` fences.
 
 ###  /health - Health status 
 
@@ -160,63 +154,19 @@ For more info see:
 
 ###  /env - Configuration 
 This endpoint prints out the given configuration for an application. Sensitive fields are masked using standard Spring Boot
-mechanics. 
+mechanisms. 
 
 ### /prometheus - Metrics   
 
-This reference application uses a library [aurora-prometheus](https://github.com/skatteetaten/aurora-prometheus)
-in order to directly instrument Prometheus metrics. 
-
-The following metrics are set up automatically
- - http_server_requests histogram for inncomming requestes. 
- - http_client_requests histogram for outgoing requests.
- - operations histogram for manual operations with the ```withMetrics``` method.
- - statuses gauge for status of things, 0=OK, 1=Unstable, 2=Critical
- - sizes gauge for size of queues or elements processed or similar things. 
- 
-For instructions on how to use metrics see the [tests in aurora-prometheus](https://github.com/Skatteetaten/aurora-prometheus/tree/master/src/test/groovy/no/skatteetaten/aurora/prometheus)
- 
-It is possible to configure the grouping and filtering of both server and client metrics in your application.yaml file. 
-
-    aurora:
-        client:
-           metricsPathLabelGroupings:
-              httpbin: ".*httpbin.org.*"
-
-This configuration says that all outgoing requests that match the regex on the right should be grouped under the 
-path label on the left.
-
-    aurora:
-        client:
-           mode : INCLUDE_MAPPINGS
-           metricsPathLabelGroupings:
-              httpbin: ".*httpbin.org.*"
-
-Group as above but also exclude everything not matching the regex in the labelGroupings.
-
-
-    aurora:
-        client:
-           mode: INCLUDE
-           includes:
-              httpbin: ".*httpbin.org.*"
-
-Only include the metrics matching the regex on the right
-
-    aurora:
-        client:
-           mode: EXCLUDE
-           includes:
-              httpbin: ".*httpbin.org.*"
-
-Exclude the metrics matching the regex on the right
+The reference application sets up metrics as described in the 
+[aurora-spring-boot-starter](https://github.com/Skatteetaten/aurora-spring-boot-starters/tree/master/aurora)
 
 For applications that are deployed to OpenShift, metrics exposed at ```/prometheus``` (default, configurable) in the
 format required by Prometheus will be automatically scraped.
 
 ## Security
 
-Management interface is exposed on a seperate port that is not accessable outside of the cluster. This means that no 
+Management interface is exposed on a separate port that is not accessible outside of the cluster. This means that no 
 information about metrics, env vars, health status is available to the the outside world. 
 
 Tomcat is the application server used in the standard spring boot starter web, it by default disables the TRACE endpoint 
