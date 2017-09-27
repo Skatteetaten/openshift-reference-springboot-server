@@ -15,10 +15,11 @@ import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.web.client.RestTemplate
 
+import io.micrometer.spring.autoconfigure.MetricsAutoConfiguration
 import no.skatteetaten.aurora.AuroraMetrics
 import no.skatteetaten.aurora.annotations.AuroraApplication
 
-@SpringBootTest(classes = [Config, AuroraMetrics, RestTemplate], webEnvironment = NONE)
+@SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics], webEnvironment = NONE)
 class ExampleControllerTest extends AbstractControllerTest {
 
   @AuroraApplication
