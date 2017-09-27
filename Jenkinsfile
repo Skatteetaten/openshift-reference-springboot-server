@@ -7,6 +7,7 @@ fileLoader.withGit('https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.g
 
 def systemtest = [
   auroraConfigEnvironment : 'st-refapp',
+  path : 'src/systemtest',
   applicationUnderTest : "referanse",
   npmScripts : ['test']
 ]
