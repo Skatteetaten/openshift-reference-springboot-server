@@ -15,7 +15,8 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"        tests[\"Return number\"] = !isNaN(responseBody);"
+              "var data=JSON.parse(responseBody);",
+              "tests[\"Return number\"] = data.counter===0"
 						]
 					}
 				}
