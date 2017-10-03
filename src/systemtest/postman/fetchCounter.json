@@ -16,7 +16,7 @@
 						"type": "text/javascript",
 						"exec": [
               "var data=JSON.parse(responseBody);",
-              "tests[\"Return number\"] = data.VALUE===0"
+              "tests[\"Return number\"] = data.value===0"
 						]
 					}
 				}
