@@ -4,15 +4,16 @@ import scala.concurrent.duration._
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import io.gatling.jdbc.Predef._
+import scala.concurrent.duration._
+import scala.util.Properties._
 
 class PerformanceRefapp extends Simulation {
 
 		val targetHost = propOrElse("gatling.targetHost", "http://localhost:8080")
-		val numUsers = propOrElse("gatling.numTestUsers", "5")
+		val numUsers = propOrElse("gatling.numUsers", "5").toInt
 		val timeSpan = propOrElse("gatling.timeSpan", "2").toLong
 		val korId = "PerformanceTest :" + System.currentTimeMillis().toString + "." + Math.random().toString
-		println("Running Performance Test at host: " targetHost)
+		println("Running Performance Test at host: " + targetHost)
 
 		val httpProtocol = http
 			.baseURL(targetHost)
