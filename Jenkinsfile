@@ -11,7 +11,7 @@ def systemtest = [
   applicationUnderTest : "referanse",
   npmScripts : ['test'],
   gatling : [
-    "path" : "gatling"
+    "appDir" : "gatling"
   ]
 ]
 
