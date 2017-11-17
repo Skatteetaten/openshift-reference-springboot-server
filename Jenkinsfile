@@ -9,7 +9,7 @@ def systemtest = [
   auroraConfigEnvironment : 'st-refapp',
   path : 'src/systemtest',
   applicationUnderTest : "referanse",
-  npmScripts : ['test']
+  npmScripts : ['test'],
   gatling : [
     "path" : "gatling"
   ]
