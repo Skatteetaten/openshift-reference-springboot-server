@@ -50,11 +50,6 @@ The application has one starter  [aurora-spring-boot-starter](https://github.com
  - instrument ServerFilter with metrics
  - instrument logback with metrics
  
-In order to auto configure a datasource provided on openshift add the following configuration to your properties file
- 
-    aurora:
-      db: NAME_OF_DB
-
 
 ## Log Configuration
 
