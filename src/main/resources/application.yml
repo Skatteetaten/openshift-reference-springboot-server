@@ -7,14 +7,15 @@ info:
 spring:
     profiles:
         active: local
-    metrics:
-
-
-    metrics:
-        prometheus:
-            timerPercentilesMax: "PT5S"
-            timerPercentilesMin: "PT0.1S"
-
+    metrics.meter.http.client.requests:
+        maximumExpectedValue: 10s
+        minimumExpectedValue: 10ms
+    metrics.meter.http.server.requests:
+        maximumExpectedValue: 10s
+        minimumExpectedValue: 10ms
+    metrics.meter.operations:
+        maximumExpectedValue: 5s
+        minimumExpectedValue: 10ms
 
 logging:
     level:
