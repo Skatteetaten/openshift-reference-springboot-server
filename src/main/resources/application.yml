@@ -8,6 +8,9 @@ spring:
     profiles:
         active: local
     metrics:
+
+
+    metrics:
         prometheus:
             timerPercentilesMax: "PT5S"
             timerPercentilesMin: "PT0.1S"
