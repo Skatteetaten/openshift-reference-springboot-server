@@ -35,7 +35,6 @@ fork/export:
  * remove the openshift folder, it is there to be used for demos. If you want you can use the aoc configuration as inspiration when you create your own aoc configuration in a seperate repository
  * change the ```groupId``` and ```artifactId``` in the ```pom.xml``` to match that of your application
  * rename the main package in ```src/main``` to match that of your application
- * change the ```info.application.name``` property in ```application.yml``` to match that of your application
  * change the ```info.links``` in ```application.yml``` to match that of your application
  * remove the example database code (migrations under ```src/main/resource/db/migrations```), the Counter-classes in the controllers, health and service packages and the database config in ```application.yml```
 
