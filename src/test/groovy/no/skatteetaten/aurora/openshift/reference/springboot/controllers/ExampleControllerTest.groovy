@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.Configuration
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.web.servlet.ResultActions
@@ -22,7 +21,6 @@ import no.skatteetaten.aurora.AuroraMetrics
 @SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics], webEnvironment = NONE)
 class ExampleControllerTest extends AbstractControllerTest {
 
-  @Configuration
   static class Config {}
 
   @Autowired
