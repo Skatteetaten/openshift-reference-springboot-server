@@ -9,7 +9,6 @@ import org.springframework.restdocs.snippet.Snippet
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
-import io.micrometer.spring.web.servlet.WebMvcMetrics
 import spock.lang.Specification
 
 abstract class AbstractControllerTest extends Specification {
@@ -24,7 +23,7 @@ abstract class AbstractControllerTest extends Specification {
     def controllers = []
     controllers.addAll(controllersUnderTest)
     mockMvc = MockMvcBuilders.standaloneSetup(controllers.toArray())
-        .setControllerAdvice(new ErrorHandler(Mock(WebMvcMetrics)))
+        .setControllerAdvice(new ErrorHandler())
         .apply(MockMvcRestDocumentation.documentationConfiguration(jUnitRestDocumentation))
         .build()
   }

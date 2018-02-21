@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import io.micrometer.spring.web.servlet.WebMvcMetrics;
 
 /**
  * A sample error handler. You can add your own exceptions below to control the error codes that should be used in
@@ -21,12 +20,6 @@ import io.micrometer.spring.web.servlet.WebMvcMetrics;
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
-    private WebMvcMetrics metrics;
-
-    public ErrorHandler(WebMvcMetrics metrics) {
-
-        this.metrics = metrics;
-    }
 
     @ExceptionHandler({ RuntimeException.class })
     protected ResponseEntity<Object> handleGenericError(RuntimeException e, WebRequest request) {
@@ -40,7 +33,6 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> handleException(final RuntimeException e, WebRequest request,
         HttpStatus httpStatus) {
-        metrics.tagWithException(e);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 

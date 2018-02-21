@@ -2,14 +2,13 @@ package no.skatteetaten.aurora.openshift.reference.springboot.controllers
 
 import org.springframework.http.HttpStatus
 
-import io.micrometer.spring.web.servlet.WebMvcMetrics
 import spock.lang.Specification
 
 class ErrorHandlerTest extends Specification {
 
   public static final String ERROR_MESSAGE = "Test"
   public static final String ROOT_CAUSE = "Root cause"
-  def errorHandler = new ErrorHandler(Mock(WebMvcMetrics))
+  def errorHandler = new ErrorHandler()
 
   def "Sets correct status code and error message on causeless Exceptions"() {
 
