@@ -11,15 +11,16 @@ import io.micrometer.core.instrument.config.MeterFilter;
 @SpringBootApplication
 public class Main {
 
+    public static final int MIN_MILLIES = 300;
+
     protected Main() {
     }
 
-    private static int MIN_MILLIS = 300;
 
     //Example on how to override default 100 milis lower bound for buckets
     @Bean
     MeterFilter minExpectedHttp() {
-        return MeterFilter.minExpected("http", Duration.ofMillis(MIN_MILLIS));
+        return MeterFilter.minExpected("http", Duration.ofMillis(MIN_MILLIES));
     }
 
     public static void main(String[] args) throws Exception {
