@@ -1,26 +1,12 @@
 package no.skatteetaten.aurora.openshift.reference.springboot;
 
-import java.time.Duration;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import io.micrometer.core.instrument.config.MeterFilter;
 
 @SpringBootApplication
 public class Main {
 
-    public static final int MIN_MILLIES = 300;
-
     protected Main() {
-    }
-
-
-    //Example on how to override default 100 milis lower bound for buckets
-    @Bean
-    MeterFilter minExpectedHttp() {
-        return MeterFilter.minExpected("http", Duration.ofMillis(MIN_MILLIES));
     }
 
     public static void main(String[] args) throws Exception {
