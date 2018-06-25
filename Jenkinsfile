@@ -19,7 +19,8 @@ def overrides = [
   affiliation: "paas",
   testStages:[systemtest],
   piTests: false,
-  credentialsId: "github"
+  credentialsId: "github",
+  branchesToUseTagsAsVersionsFor: []
   ]
 
 jenkinsfile.run(version, overrides)
