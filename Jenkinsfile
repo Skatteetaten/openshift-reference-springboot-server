@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def version = 'bugfix/AOS-2645-branchesToUseTagsAsVersionsForCsv'
+def version = 'v4'
 fileLoader.withGit('https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git', version) {
    jenkinsfile = fileLoader.load('templates/leveransepakke')
 }
