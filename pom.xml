@@ -62,7 +62,7 @@
         <plugin>
           <groupId>no.skatteetaten.aurora.maven.plugins</groupId>
           <artifactId>aurora-cd</artifactId>
-          <version>3.1.1</version>
+          <version>bugfix_AOS_2645_branchesToUseTagsAsVersionsFor-SNAPSHOT</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
