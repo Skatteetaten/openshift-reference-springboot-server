@@ -16,6 +16,7 @@ def systemtest = [
 ]
 
 def overrides = [
+  version: 'v5'
   affiliation: "paas",
   testStages:[systemtest],
   piTests: false,
