@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def version = 'v5'
+def version = 'v4'
 fileLoader.withGit('https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git', version) {
    jenkinsfile = fileLoader.load('templates/leveransepakke')
 }
@@ -15,14 +15,13 @@ def systemtest = [
   ]
 ]
 
-def overrides = [
-  version: 'v5'
+def config = [
   affiliation: "paas",
   testStages:[systemtest],
   piTests: false,
   credentialsId: "github"
   ]
 
-jenkinsfile.run(version, overrides)
+jenkinsfile.run(version, config)
 
 
