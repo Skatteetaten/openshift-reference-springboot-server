@@ -29,7 +29,7 @@
     <sonar.coverage.exclusions>**/*Main.java</sonar.coverage.exclusions>
     <sonar.tests>src/test/groovy</sonar.tests>
     <spock.version>1.1-groovy-2.4</spock.version>
-    <!-- Prosjektspesifikk Nexus staging profil. Må endres av prosjektene -->
+    <!-- Project specific Nexus staging profileID. Must be changed by proejct -->
     <!--<staging-profile-id-med-clm>specify-your-own</staging-profile-id-med-clm>-->
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
   </properties>
@@ -54,7 +54,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <!-- Brukes til å kompilere groovy kode i enhetstestene -->
           <groupId>org.codehaus.gmavenplus</groupId>
           <artifactId>gmavenplus-plugin</artifactId>
           <version>1.5</version>
@@ -147,15 +146,10 @@
         <executions>
           <execution>
             <goals>
-              <!-- Inkluder repackage goal slik at vi kan konfigurere det (se under) -->
               <goal>repackage</goal>
-              <!-- Generer META-INF/build-info.properties slik at byggeinformasjonen kan inkluderes i /info -->
               <goal>build-info</goal>
             </goals>
             <configuration>
-              <!-- Konfigurer repackage goalet til å ikke kjøre. Vi skrur dette av for å unngå at de ompakkede jaren
-              bli inkludert i Leveransepakken. Den ompakkede jaren er i praksis en fat jar (jar med alle avhengigheter),
-              slik at Leveransepakken ville bli dobbelt så stor. -->
               <skip>true</skip>
             </configuration>
           </execution>
