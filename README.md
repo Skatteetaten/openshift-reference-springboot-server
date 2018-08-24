@@ -12,6 +12,15 @@ migrations, testing, security, application versioning, build pipeline, to name a
 
 The Reference Application is implemented in [Spring Boot](https://projects.spring.io/spring-boot/).
 
+In order to deploy this application on the https://skatteetaten.github.io/aurora[AuroraPlattform] using https://skatteetaten.github.io/aurora/documentation/aurora-config/[AuroraConfig] the following must be specified in the base file:
+[source,yaml]
+----
+actuator:
+  path: /actuator/prometheus
+----
+
+The standard value is /prometheus that works for spring boot 1 based applications but not boot2 based applications.
+
 
 # About the Core Technologies
 
