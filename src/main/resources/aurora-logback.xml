@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+  <turboFilter class="ch.qos.logback.classic.turbo.DynamicThresholdFilter">
+    <Key>X-REQUEST-LOG-LEVEL</Key>
+    <DefaultThreshold>INFO</DefaultThreshold>
+    <MDCValueLevelPair>
+      <value>TRACE</value>
+      <level>TRACE</level>
+    </MDCValueLevelPair>
+    <MDCValueLevelPair>
+      <value>DEBUG</value>
+      <level>DEBUG</level>
+    </MDCValueLevelPair>
+  </turboFilter>
+</included>

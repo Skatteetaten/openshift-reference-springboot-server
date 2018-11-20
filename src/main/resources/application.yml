@@ -10,13 +10,18 @@ spring:
 
 logging:
     level:
-      ske.aurora: INFO
-      no.skatteetaten: INFO
-      org:
-        springframework: WARN
-        apache.catalina: WARN
-        hibernate: WARN
+        ske.aurora: TRACE
+        no.skatteetaten: TRACE
+        org:
+            springframework: WARN
+            springframework.jdbc: TRACE
+            springframework.http: TRACE
+            apache.catalina: WARN
+            hibernate: WARN
 
+aurora.starter.requestbasedlogging:
+    enabled: true
+    wait: 30
 ---
 spring:
   profiles: local
@@ -32,5 +37,6 @@ management:
 
 logging:
     pattern:
-      console: "%d [%-9.9thread] %-5level %logger %X - %msg %n%rEx{full}"
+        console: "%d [%-9.9thread] %-5level %logger %X - %msg %n%rEx{full}"
+    config: local-logback.xml
 
