@@ -19,7 +19,8 @@ def config = [
   affiliation: "paas",
   testStages:[systemtest],
   piTests: false,
-  credentialsId: "github"
+  credentialsId: "github",
+  nodeVersion: "node-8"
   ]
 
 jenkinsfile.run(version, config)
