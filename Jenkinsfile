@@ -1,5 +1,4 @@
 #!/usr/bin/env groovy
-#!/usr/bin/env groovy
 
 def scriptVersion  = 'AOS-3004'
 def pipelineScript = 'https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git'
