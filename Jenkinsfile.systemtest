@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def scriptVersion  = 'feature/AOS-2708'
+def scriptVersion  = 'AOS-3004'
 def pipelineScript = 'https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git'
 fileLoader.withGit(pipelineScript, scriptVersion) {
    jenkinsfile = fileLoader.load('templates/systemtest')
@@ -45,9 +45,8 @@ def config = [
     notifyBitbucket          : "none" //We are on github
 ]
 
-timestamps {
-    jenkinsfile.run(scriptVersion, config)
-}
+jenkinsfile.run(scriptVersion, config)
+
 
 // Pipelines i Jenkins forventer currentBuild.result == null for å indikere vellykket bygg
 // Stash notifier plugin forventer currentBuild.result == SUCCESS for å indikere vellykket bygg
