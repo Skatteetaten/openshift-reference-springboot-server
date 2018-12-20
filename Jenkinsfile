@@ -11,8 +11,8 @@ def config = [
     scriptVersion               : scriptVersion,
     javaVersion                 : "8",
     affiliation                 : "paas",
+    debugAndExit                : true,
     downstreamSystemtestJob     : [ repo: "openshift-reference-springboot-server", branch: env.BRANCH_NAME],
-    debug: true,
     credentialsId: "github",
     suggestVersionAndTagReleases: [
         [branch: 'master', versionHint: '2'],
