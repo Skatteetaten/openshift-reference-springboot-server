@@ -13,7 +13,7 @@ def config = [
     affiliation                 : "paas",
     downstreamSystemtestJob     : [ repo: "openshift-reference-springboot-server", branch: env.BRANCH_NAME],
     credentialsId: "github",
-    suggestVersionAndTagReleases: [
+    versionStrategy: [
         [branch: 'master', versionHint: '2'],
         [branch: 'release/v1', versionHint: '1']
     ]
