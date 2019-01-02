@@ -27,18 +27,6 @@ def config = [
     affiliation              : 'paas',
     credentialsId            : "github",
     testStages               : [systemtest],
-    tempDockerTag            : TEMP_DOCKER_TAG,
-    originatingCommitId      : ORIGINATING_COMMIT_ID,
-    artifactUnderTest        : ARTIFACT_UNDER_TEST,
-    groupIdUnderTest         : GROUP_ID_UNDER_TEST,
-    artifactVersion          : ARTIFACT_VERSION,
-    openShiftBaseImage       : OPENSHIFT_BASE_IMAGE,
-    openShiftBaseImageVersion: OPENSHIFT_BASE_IMAGE_VERSION,
-    openshiftBuilderImage    : OPENSHIFT_BUILDER_IMAGE,
-    openshiftBuilderVersion  : OPENSHIFT_BUILDER_VERSION,
-    extraTagsToPush          : OPENSHIFT_EXTRA_TAGS,
-    testBranch               : TEST_BRANCH,
-    releaseClassifier        : RELEASE_CLASSIFIER,
     notifyBitbucket          : "none" //We are on github
 ]
 
