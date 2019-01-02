@@ -1,27 +1,24 @@
 #!/usr/bin/env groovy
 
-def scriptVersion  = 'AOS-3004'
+def scriptVersion = 'AOS-3004'
 def pipelineScript = 'https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git'
 fileLoader.withGit(pipelineScript, scriptVersion) {
-   jenkinsfile = fileLoader.load('templates/systemtest')
+  jenkinsfile = fileLoader.load('templates/systemtest')
 }
 
 def systemtest = [
-  auroraConfigEnvironment : 'st-refapp',
-  path : 'src/systemtest',
-  applicationUnderTest : "referanse",
-  testStages: [
-    [
-      stageName : 'postman',
-      stageType : 'postman',
-      npmCommand : 'test',
-    ],
-    [
-      stageName : 'gatling',
-      stageType: 'gatling',
-      appDir   : 'gatling'
-    ]
-  ]
+    auroraConfigEnvironment: 'st-refapp',
+    path                   : 'src/systemtest',
+    applicationUnderTest   : "referanse",
+    testSequence           : [[
+                                  stageType : 'postman',
+                                  stageName : 'postman',
+                                  npmCommand: 'test'
+                              ], [
+                                  stageType: 'gatling',
+                                  stageName: 'gatling',
+                                  appDir   : 'gatling'
+                              ]]
 ]
 
 def config = [
@@ -46,7 +43,6 @@ def config = [
 ]
 
 jenkinsfile.run(scriptVersion, config)
-
 
 // Pipelines i Jenkins forventer currentBuild.result == null for å indikere vellykket bygg
 // Stash notifier plugin forventer currentBuild.result == SUCCESS for å indikere vellykket bygg
