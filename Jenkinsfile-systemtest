@@ -8,11 +8,11 @@ fileLoader.withGit(pipelineScript, scriptVersion) {
 
 def systemtest = [
     auroraConfigEnvironment: 'st-refapp',
-    path                   : 'src/systemtest',
     applicationUnderTest   : "referanse",
     testSequence           : [[
                                   stageType : 'postman',
                                   stageName : 'postman',
+                                  appDir : "src/systemtest/postman",
                                   npmCommand: 'test'
                               ], [
                                   stageType: 'gatling',
