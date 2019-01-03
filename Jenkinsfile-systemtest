@@ -27,14 +27,3 @@ fileLoader.withGit(config.pipelineScript, config.scriptVersion) {
   jenkinsfile = fileLoader.load('templates/systemtest')
 }
 jenkinsfile.run(scriptVersion, config)
-
-// Pipelines i Jenkins forventer currentBuild.result == null for å indikere vellykket bygg
-// Stash notifier plugin forventer currentBuild.result == SUCCESS for å indikere vellykket bygg
-// Settes currentBuild.result == SUCCESS inne i pipeline scriptet, vil bygget markeres som failed i Jenkins
-// Derfor kjøres dette steget utenfor pipeline som en hack for å sette riktig status i BitBucket
-node {
-  if (currentBuild.result == null) {
-    currentBuild.result = 'SUCCESS'
-  }
-}
-

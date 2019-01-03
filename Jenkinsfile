@@ -4,7 +4,7 @@ def config = [
     pipelineScript         : 'https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git',
     javaVersion            : "8",
     affiliation            : "paas",
-    downstreamSystemtestJob: [repo: "openshift-reference-springboot-server", branch: env.BRANCH_NAME],
+    downstreamSystemtestJob: [branch: env.BRANCH_NAME],
     credentialsId          : "github",
     versionStrategy        : [
         [branch: 'master', versionHint: '2'],
