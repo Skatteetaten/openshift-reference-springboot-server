@@ -21,7 +21,8 @@ def config = [
                               ]
                           ]
                       ]],
-    notifyBitbucket: "none" //We are on github
+    notifyBitbucket: "none", //We are on github
+    routeFormat: "@NAME@.@SEGMENT@.@ENV@.utv.paas.skead.no"
 ]
 fileLoader.withGit(config.pipelineScript, config.scriptVersion) {
   jenkinsfile = fileLoader.load('templates/systemtest')
