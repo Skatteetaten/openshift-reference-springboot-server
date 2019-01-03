@@ -26,4 +26,4 @@ def config = [
 fileLoader.withGit(config.pipelineScript, config.scriptVersion) {
   jenkinsfile = fileLoader.load('templates/systemtest')
 }
-jenkinsfile.run(scriptVersion, config)
+jenkinsfile.run(config.scriptVersion, config)
