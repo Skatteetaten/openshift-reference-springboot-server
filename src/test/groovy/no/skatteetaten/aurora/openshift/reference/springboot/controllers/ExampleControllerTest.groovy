@@ -20,9 +20,8 @@ import org.springframework.web.client.RestTemplate
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Metrics
 import no.skatteetaten.aurora.AuroraMetrics
-import no.skatteetaten.aurora.openshift.reference.springboot.ApplicationConfig
 
-@SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics, ApplicationConfig], webEnvironment = NONE)
+@SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics], webEnvironment = NONE)
 class ExampleControllerTest extends AbstractControllerTest {
 
   static class Config {
