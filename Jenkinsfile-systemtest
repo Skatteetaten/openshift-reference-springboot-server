@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 def config = [
-    scriptVersion  : 'v6',
+    scriptVersion  : 'feature/AOS-3495',
     pipelineScript : 'https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git',
     affiliation    : 'paas',
     credentialsId  : "github",
