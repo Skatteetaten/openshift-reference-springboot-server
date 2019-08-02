@@ -40,7 +40,7 @@
     <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
 
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
-    <checkstyle-config.version>2.1.5</checkstyle-config.version>
+    <checkstyle-config.version>2.1.7</checkstyle-config.version>
     <checkstyle.version>8.23</checkstyle.version>
 
     <spring-boot-thin-layout.version>1.0.22.RELEASE</spring-boot-thin-layout.version>
