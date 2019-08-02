@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 def config = [
-    scriptVersion              : 'v6',
+    scriptVersion              : 'bugfix/javaversion-quickfix',
     pipelineScript             : 'https://git.aurora.skead.no/scm/ao/aurora-pipeline-scripts.git',
     downstreamSystemtestJob    : [branch: env.BRANCH_NAME],
     credentialsId              : "github",
