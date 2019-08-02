@@ -307,13 +307,6 @@
           </rules>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <release>11</release>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
