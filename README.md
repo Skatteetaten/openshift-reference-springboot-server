@@ -43,6 +43,7 @@ central files, like the ```pom.xml``` and ```application.yml```.
 Regardless of the approach you use to keep up with changes, you will have to make the following changes to the
 fork/export:
 
+ * change the ```iqOrganizationName``` in the `Jenkinsfile` to match your organization
  * change the ```groupId```, ```artifactId```, ```name``` and ```description``` in the ```pom.xml``` to match that of your application
  * rename the main package in ```src/main``` to match that of your application
  * change the ```info.links``` in ```application.yml``` to match that of your application
