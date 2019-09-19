@@ -35,8 +35,6 @@
     <pitest-maven.version>1.4.9</pitest-maven.version>
     <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
 
-    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-
     <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
 
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
@@ -46,8 +44,6 @@
     <spring-boot-thin-layout.version>1.0.22.RELEASE</spring-boot-thin-layout.version>
     <asciidoctor-maven-plugin.version>1.6.0</asciidoctor-maven-plugin.version>
 
-    <!-- Project specific Nexus staging profileID. Must be changed by project -->
-    <!--<staging-profile-id-med-clm>specify-your-own</staging-profile-id-med-clm>-->
     <ojdbc8.version>12.2.0.1</ojdbc8.version>
   </properties>
 
@@ -383,28 +379,6 @@
           <artifactId>spring-boot-devtools</artifactId>
         </dependency>
       </dependencies>
-    </profile>
-    <profile>
-      <id>release-staging</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>${nexus-staging-maven-plugin.version}</version>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>releases</serverId>
-              <nexusUrl>http://aurora/nexus/</nexusUrl>
-              <stagingProfileId>${staging-profile-id-med-clm}</stagingProfileId>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
   </profiles>
 </project>
