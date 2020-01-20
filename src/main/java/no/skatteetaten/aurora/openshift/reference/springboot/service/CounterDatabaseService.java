@@ -19,9 +19,8 @@ public class CounterDatabaseService {
 
     @Transactional
     public Long getAndIncrementCounter() {
-        Long counter = jdbcTemplate.queryForObject("SELECT value FROM counter FOR UPDATE OF value", Long.class);
         jdbcTemplate.update("UPDATE counter SET value=value+1");
-        return counter;
+        return jdbcTemplate.queryForObject("SELECT value FROM counter FOR UPDATE OF value", Long.class);
     }
 
     public Long getCounter() {

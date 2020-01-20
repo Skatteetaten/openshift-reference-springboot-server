@@ -21,13 +21,14 @@ class CounterDatabaseServiceTest extends Specification {
       def counter = service.getAndIncrementCounter()
 
     then:
-      counter == 0
+      counter == 1
+      service.counter == 1
 
     when:
       counter = service.getAndIncrementCounter()
 
     then:
-      counter == 1
+      counter == 2
       service.counter == 2
   }
 }
