@@ -21,9 +21,9 @@ logging:
 spring:
   profiles: local
   datasource:
-    url: "jdbc:oracle:thin:@uil0map-drivein-db02:1521/dbhotel"
-    username: "PTEEYLLKRGKGWONIHSAPJBCAQSYIGV"
-    password: "a17gQoC3GI14RJaMdu7CInjzjPO4sX"
+      url: ${refapp.datasource.url:jdbc:oracle:thin:@host:port/path}
+      username: ${refapp.datasource.username:username}
+      password: ${refapp.datasource.password:password}
 
 
 management:
