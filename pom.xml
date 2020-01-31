@@ -39,7 +39,7 @@
 
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
     <checkstyle-config.version>2.2.0</checkstyle-config.version>
-    <checkstyle.version>8.25</checkstyle.version>
+    <checkstyle.version>8.29</checkstyle.version>
 
     <spring-boot-thin-layout.version>1.0.22.RELEASE</spring-boot-thin-layout.version>
     <asciidoctor-maven-plugin.version>1.6.0</asciidoctor-maven-plugin.version>
