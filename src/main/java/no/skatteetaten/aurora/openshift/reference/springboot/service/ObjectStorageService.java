@@ -43,7 +43,7 @@ public class ObjectStorageService {
         try {
             return readTextStream(getObjectInputStream(keyName));
         } catch (IOException e) {
-            throw new RuntimeException("Error while reading text object", e);
+            throw new ObjectStorageException("Error while reading text object", e);
         }
     }
 
@@ -70,8 +70,9 @@ public class ObjectStorageService {
     private static String readTextStream(InputStream input) throws IOException {
         var reader = new BufferedReader(new InputStreamReader(input));
         var text = new StringBuilder();
+        String lineSeparator = System.getProperty("line.separator");
         for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-            text.append(line).append(System.getProperty("line.separator"));
+            text.append(line).append(lineSeparator);
         }
         return text.toString();
     }

@@ -8,8 +8,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.amazonaws.SdkBaseException;
-
+import no.skatteetaten.aurora.openshift.reference.springboot.service.ObjectStorageException;
 import no.skatteetaten.aurora.openshift.reference.springboot.service.ObjectStorageService;
 
 @Component
@@ -31,7 +30,7 @@ public class S3Experiment implements ApplicationRunner {
             storageService.putFile(keyName, file);
             var text = storageService.getTextObject(keyName);
             System.out.println(text);
-        } catch (SdkBaseException e) {
+        } catch (ObjectStorageException e) {
             logger.error("An error occurred while performing operations agains S3", e);
         }
     }
