@@ -57,6 +57,8 @@ This section describes custom configration within this application.
 
 ### Database: maximum pool size
 
+**Config:** `spring.datasource.hikari.maximumPoolSize`
+
 Default `maxmimumPoolSize` for Hikary is **10**. This has been reduced to **3** in this application.
 
 * Read more about [pool sizing here](https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing).
