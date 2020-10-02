@@ -35,7 +35,7 @@ public class ApplicationConfig {
         return AmazonS3ClientBuilder
             .standard()
             .withEndpointConfiguration(
-                new AwsClientBuilder.EndpointConfiguration(s3Properties.getServiceEndpoint(), Regions.US_EAST_1.name()))
+                new AwsClientBuilder.EndpointConfiguration(s3Properties.getServiceEndpoint(), s3Properties.getBucketRegion()))
             .withPathStyleAccessEnabled(true)
             .withClientConfiguration(clientConfiguration)
             .withCredentials(new AWSStaticCredentialsProvider(credentials))

@@ -10,6 +10,7 @@ public class S3Properties {
     private String secretKey;
     private String bucketName;
     private String objectPrefix;
+    private String bucketRegion;
 
     public String getServiceEndpoint() {
         return serviceEndpoint;
@@ -35,19 +36,19 @@ public class S3Properties {
         this.secretKey = secretKey;
     }
 
-    public String getBucketName() {
-        return bucketName;
-    }
+    public String getBucketName() { return bucketName; }
 
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
     }
 
-    public String getObjectPrefix() {
-        return objectPrefix;
-    }
+    public String getObjectPrefix() { return objectPrefix; }
 
     public void setObjectPrefix(String objectPrefix) {
         this.objectPrefix = objectPrefix;
     }
+
+    public String getBucketRegion() { return bucketRegion; }
+
+    public void setBucketRegion(String bucketRegion) { this.bucketRegion = bucketRegion; }
 }
