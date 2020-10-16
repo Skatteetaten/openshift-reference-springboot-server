@@ -44,8 +44,7 @@
     <spring-boot-thin-layout.version>1.0.23.RELEASE</spring-boot-thin-layout.version>
     <asciidoctor-maven-plugin.version>1.6.0</asciidoctor-maven-plugin.version>
 
-    <ojdbc8.version>12.2.0.1</ojdbc8.version>
-    <aws.sdk.version>1.11.106</aws.sdk.version>
+    <aws.sdk.version>2.15.7</aws.sdk.version>
   </properties>
 
   <distributionManagement>
@@ -63,8 +62,8 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.amazonaws</groupId>
-        <artifactId>aws-java-sdk-bom</artifactId>
+        <groupId>software.amazon.awssdk</groupId>
+        <artifactId>bom</artifactId>
         <version>${aws.sdk.version}</version>
         <type>pom</type>
         <scope>import</scope>
@@ -371,10 +370,6 @@
       <artifactId>flyway-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk-s3</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
       <version>2.3.2</version>
@@ -383,6 +378,10 @@
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>s3</artifactId>
     </dependency>
   </dependencies>
 

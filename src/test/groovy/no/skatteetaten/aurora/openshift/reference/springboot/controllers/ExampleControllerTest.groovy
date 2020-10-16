@@ -17,15 +17,13 @@ import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.web.client.RestTemplate
 
-import com.amazonaws.services.s3.AmazonS3
-import com.amazonaws.services.s3.AmazonS3Builder
-import com.amazonaws.services.s3.AmazonS3ClientBuilder
-
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Metrics
 import no.skatteetaten.aurora.AuroraMetrics
 import no.skatteetaten.aurora.openshift.reference.springboot.service.ObjectStorageService
 import no.skatteetaten.aurora.openshift.reference.springboot.service.dto.S3Properties
+import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.services.s3.S3Client
 
 @SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics, ObjectStorageService], webEnvironment = NONE)
 class ExampleControllerTest extends AbstractControllerTest {
@@ -53,8 +51,8 @@ class ExampleControllerTest extends AbstractControllerTest {
     }
 
     @Bean
-    AmazonS3 amazonS3() {
-      return AmazonS3ClientBuilder.standard().withRegion("us-east-1").build()
+    S3Client amazonS3() {
+      return S3Client.builder().region(Region.US_EAST_1).build()
     }
   }
 
