@@ -17,17 +17,44 @@ import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.web.client.RestTemplate
 
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3Builder
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
+
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Metrics
 import no.skatteetaten.aurora.AuroraMetrics
+import no.skatteetaten.aurora.openshift.reference.springboot.service.ObjectStorageService
+import no.skatteetaten.aurora.openshift.reference.springboot.service.dto.S3Properties
 
-@SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics], webEnvironment = NONE)
+@SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics, ObjectStorageService], webEnvironment = NONE)
 class ExampleControllerTest extends AbstractControllerTest {
 
   static class Config {
     @Bean
     MeterRegistry meterRegistry() {
       Metrics.globalRegistry
+    }
+
+    @Bean
+    S3Properties s3Properties() {
+      def s3Properties = new S3Properties()
+      def s3Bucket = new HashMap<String, S3Properties.S3Bucket>()
+      def defaultS3Bucket = new S3Properties.S3Bucket()
+      defaultS3Bucket.setAccessKey("accesskey")
+      defaultS3Bucket.setSecretKey("secretkey")
+      defaultS3Bucket.setBucketName("mybucket")
+      defaultS3Bucket.setBucketRegion("us-east-1")
+      defaultS3Bucket.setObjectPrefix("objectPrefix")
+      defaultS3Bucket.setServiceEndpoint("http://localhost")
+      s3Bucket.put("default", defaultS3Bucket)
+      s3Properties.setBuckets(s3Bucket )
+      return s3Properties
+    }
+
+    @Bean
+    AmazonS3 amazonS3() {
+      return AmazonS3ClientBuilder.standard().withRegion("us-east-1").build()
     }
   }
 
@@ -36,6 +63,9 @@ class ExampleControllerTest extends AbstractControllerTest {
 
   @Autowired
   RestTemplate restTemplate
+
+  @Autowired
+  ObjectStorageService objectStorageService
 
   def controller
 
@@ -97,7 +127,7 @@ class ExampleControllerTest extends AbstractControllerTest {
   @Override
   protected List<Object> getControllersUnderTest() {
 
-    controller = new ExampleController(restTemplate, auroraMetrics) {
+    controller = new ExampleController(restTemplate, auroraMetrics, objectStorageService) {
       @Override
       protected boolean performOperationThatMayFail() {
         return shouldSucceed

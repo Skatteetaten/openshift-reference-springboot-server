@@ -1,7 +1,7 @@
 package no.skatteetaten.aurora.openshift.reference.springboot.controllers.dto;
 
 public class S3FileContentResponse {
-    String content;
+    private String content;
 
     public S3FileContentResponse(String content) {
         this.content = content;

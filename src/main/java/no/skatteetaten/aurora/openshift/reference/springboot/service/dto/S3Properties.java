@@ -3,7 +3,6 @@ package no.skatteetaten.aurora.openshift.reference.springboot.service.dto;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "s3")
 public class S3Properties {
@@ -17,7 +16,6 @@ public class S3Properties {
     public void setBuckets(Map<String, S3Bucket> buckets) {
         this.buckets = buckets;
     }
-
 
     public static class S3Bucket {
         private String serviceEndpoint;
@@ -51,20 +49,28 @@ public class S3Properties {
             this.secretKey = secretKey;
         }
 
-        public String getBucketName() { return bucketName; }
+        public String getBucketName() {
+            return bucketName;
+        }
 
         public void setBucketName(String bucketName) {
             this.bucketName = bucketName;
         }
 
-        public String getObjectPrefix() { return objectPrefix; }
+        public String getObjectPrefix() {
+            return objectPrefix;
+        }
 
         public void setObjectPrefix(String objectPrefix) {
             this.objectPrefix = objectPrefix;
         }
 
-        public String getBucketRegion() { return bucketRegion; }
+        public String getBucketRegion() {
+            return bucketRegion;
+        }
 
-        public void setBucketRegion(String bucketRegion) { this.bucketRegion = bucketRegion; }
+        public void setBucketRegion(String bucketRegion) {
+            this.bucketRegion = bucketRegion;
+        }
     }
 }
