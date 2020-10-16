@@ -11,14 +11,13 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
-import no.skatteetaten.aurora.openshift.reference.springboot.service.S3Properties;
+import no.skatteetaten.aurora.openshift.reference.springboot.service.dto.S3Properties;
 
 @Configuration
-@EnableConfigurationProperties(S3Properties.class)
+@EnableConfigurationProperties({S3Properties.class})
 public class ApplicationConfig {
 
     @Bean
@@ -28,14 +27,15 @@ public class ApplicationConfig {
 
     @Bean
     public AmazonS3 s3Client(S3Properties s3Properties) {
-        AWSCredentials credentials = new BasicAWSCredentials(s3Properties.getAccessKey(), s3Properties.getSecretKey());
+        S3Properties.S3Bucket defaultS3Bucket = s3Properties.getBuckets().get("default");
+        AWSCredentials credentials = new BasicAWSCredentials(defaultS3Bucket.getAccessKey(), defaultS3Bucket.getSecretKey());
         ClientConfiguration clientConfiguration = new ClientConfiguration();
         clientConfiguration.setSignerOverride("AWSS3V4SignerType");
 
         return AmazonS3ClientBuilder
             .standard()
             .withEndpointConfiguration(
-                new AwsClientBuilder.EndpointConfiguration(s3Properties.getServiceEndpoint(), s3Properties.getBucketRegion()))
+                new AwsClientBuilder.EndpointConfiguration(defaultS3Bucket.getServiceEndpoint(), defaultS3Bucket.getBucketRegion()))
             .withPathStyleAccessEnabled(true)
             .withClientConfiguration(clientConfiguration)
             .withCredentials(new AWSStaticCredentialsProvider(credentials))

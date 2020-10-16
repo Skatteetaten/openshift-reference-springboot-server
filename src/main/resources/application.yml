@@ -7,6 +7,10 @@ info:
 spring:
     profiles:
         active: local
+    datasource:
+        # Change the maximum pool size if your application needs it.
+        hikari.maximumPoolSize: 3
+        driver-class-name: org.postgresql.Driver
 
 logging:
     level:
@@ -21,9 +25,9 @@ logging:
 spring:
   profiles: local
   datasource:
-    url: ${refapp.datasource.url:jdbc:oracle:thin:@host:port/path}
-    username: ${refapp.datasource.username:username}
-    password: ${refapp.datasource.password:password}
+    url: ${refapp.datasource.url:jdbc:postgresql://localhost:5432/refapp}
+    username: ${refapp.datasource.username:postgres}
+    password: ${refapp.datasource.password:postgres}
 
 management:
     server.port: 8081
@@ -33,9 +37,11 @@ logging:
       console: "%d [%-9.9thread] %-5level %logger %X - %msg %n%rEx{full}"
 
 s3:
-    serviceEndpoint: http://minio-aurora-dev.utv.paas.skead.no
-    accessKey: aurora
-    secretKey: fragleberget
-    bucketName: testbucket
-    objectPrefix: refapp
-    bucketRegion: us-east-1
+    buckets:
+        default:
+            serviceEndpoint: http://localhost:9000
+            accessKey: minio
+            secretKey: miniosecret
+            bucketName: default
+            objectPrefix: refapp
+            bucketRegion: us-east-1
