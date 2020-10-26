@@ -5,6 +5,14 @@ public class S3FileContentRequest {
     private String fileName;
     private String content;
 
+    public S3FileContentRequest(String fileName, String content) {
+        this.fileName = fileName;
+        this.content = content;
+    }
+
+    public S3FileContentRequest() {
+    }
+
     public String getContent() {
         return content;
     }

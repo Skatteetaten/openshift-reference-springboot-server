@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import no.skatteetaten.aurora.AuroraMetrics;
 import no.skatteetaten.aurora.openshift.reference.springboot.controllers.dto.S3FileContentRequest;
 import no.skatteetaten.aurora.openshift.reference.springboot.controllers.dto.S3FileContentResponse;
-import no.skatteetaten.aurora.openshift.reference.springboot.service.ObjectStorageService;
+import no.skatteetaten.aurora.openshift.reference.springboot.service.S3Service;
 
 /*
  * An example controller that shows how to do a REST call and how to do an operation with a operations metrics
@@ -30,9 +30,9 @@ public class ExampleController {
     private static final int SECOND = 1000;
     private RestTemplate restTemplate;
     private AuroraMetrics metrics;
-    private ObjectStorageService storageService;
+    private S3Service storageService;
 
-    public ExampleController(RestTemplate restTemplate, AuroraMetrics metrics, ObjectStorageService storageService) {
+    public ExampleController(RestTemplate restTemplate, AuroraMetrics metrics, S3Service storageService) {
         this.storageService = storageService;
         this.restTemplate = restTemplate;
         this.metrics = metrics;
@@ -66,7 +66,7 @@ public class ExampleController {
     @PostMapping("/api/example/s3")
     public S3FileContentResponse uploadFile(@RequestBody S3FileContentRequest request) {
         storageService.putFileContent(request.getFileName(), request.getContent());
-        String storedFileContent = storageService.getTextObject(request.getFileName());
+        String storedFileContent = storageService.getFileContent(request.getFileName());
         return new S3FileContentResponse(storedFileContent);
 
     }

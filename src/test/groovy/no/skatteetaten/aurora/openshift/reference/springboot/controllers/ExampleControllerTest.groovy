@@ -1,58 +1,50 @@
 package no.skatteetaten.aurora.openshift.reference.springboot.controllers
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE
+import static org.mockito.ArgumentMatchers.anyString
+import static org.mockito.BDDMockito.given
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureMockRestServiceServer
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
+import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.JsonFieldType
+import org.springframework.test.web.client.MockRestServiceServer
+import org.springframework.test.web.client.match.MockRestRequestMatchers
+import org.springframework.test.web.client.response.MockRestResponseCreators
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.web.client.RestTemplate
+import org.xml.sax.ErrorHandler
+
+import com.fasterxml.jackson.databind.ObjectMapper
 
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Metrics
 import no.skatteetaten.aurora.AuroraMetrics
-import no.skatteetaten.aurora.openshift.reference.springboot.service.ObjectStorageService
-import no.skatteetaten.aurora.openshift.reference.springboot.service.dto.S3Properties
-import software.amazon.awssdk.regions.Region
-import software.amazon.awssdk.services.s3.S3Client
+import no.skatteetaten.aurora.openshift.reference.springboot.controllers.dto.S3FileContentRequest
+import no.skatteetaten.aurora.openshift.reference.springboot.service.S3Service
 
-@SpringBootTest(classes = [Config, RestTemplate, MetricsAutoConfiguration, AuroraMetrics, ObjectStorageService], webEnvironment = NONE)
+@WebMvcTest(controllers = [ExampleController, ErrorHandler])
+@Import(value = [Config, AuroraMetrics])
+@AutoConfigureWebClient(registerRestTemplate = true)
+@AutoConfigureMockRestServiceServer
 class ExampleControllerTest extends AbstractControllerTest {
 
   static class Config {
     @Bean
     MeterRegistry meterRegistry() {
       Metrics.globalRegistry
-    }
-
-    @Bean
-    S3Properties s3Properties() {
-      def s3Properties = new S3Properties()
-      def s3Bucket = new HashMap<String, S3Properties.S3Bucket>()
-      def defaultS3Bucket = new S3Properties.S3Bucket()
-      defaultS3Bucket.setAccessKey("accesskey")
-      defaultS3Bucket.setSecretKey("secretkey")
-      defaultS3Bucket.setBucketName("mybucket")
-      defaultS3Bucket.setBucketRegion("us-east-1")
-      defaultS3Bucket.setObjectPrefix("objectPrefix")
-      defaultS3Bucket.setServiceEndpoint("http://localhost")
-      s3Bucket.put("default", defaultS3Bucket)
-      s3Properties.setBuckets(s3Bucket )
-      return s3Properties
-    }
-
-    @Bean
-    S3Client amazonS3() {
-      return S3Client.builder().region(Region.US_EAST_1).build()
     }
   }
 
@@ -62,14 +54,22 @@ class ExampleControllerTest extends AbstractControllerTest {
   @Autowired
   RestTemplate restTemplate
 
+  @MockBean
+  S3Service s3Service
+
   @Autowired
-  ObjectStorageService objectStorageService
+  MockRestServiceServer server
 
   def controller
 
   Boolean shouldSucceed
 
   def "Example test for documenting the ip endpoint"() {
+    given:
+      server.expect(MockRestRequestMatchers.requestTo("http://httpbin.org/ip"))
+          .andRespond(MockRestResponseCreators.withSuccess(
+              """{ "origin": "154.127.163.2" }""",
+              MediaType.APPLICATION_JSON))
 
     when:
       ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.get('/api/example/ip'))
@@ -78,12 +78,12 @@ class ExampleControllerTest extends AbstractControllerTest {
       result
           .andExpect(status().isOk())
           .andDo(
-          document('example-ip-get',
-              preprocessResponse(prettyPrint()),
-              responseFields(
-                  fieldWithPath("ip").type(JsonFieldType.STRING).
-                      description("The ip of this service as seen from the Internet"),
-              )))
+              document('example-ip-get',
+                  preprocessResponse(prettyPrint()),
+                  responseFields(
+                      fieldWithPath("ip").type(JsonFieldType.STRING).
+                          description("The ip of this service as seen from the Internet"),
+                  )))
   }
 
   def "Example test for documenting the sometimes endpoint"() {
@@ -99,12 +99,12 @@ class ExampleControllerTest extends AbstractControllerTest {
       result
           .andExpect(status().is5xxServerError())
           .andDo(
-          document('example-sometimes-fail-get',
-              preprocessResponse(prettyPrint()),
-              responseFields(
-                  fieldWithPath("errorMessage").type(JsonFieldType.STRING).
-                      description("The error message describing the error that occurred"),
-              )))
+              document('example-sometimes-fail-get',
+                  preprocessResponse(prettyPrint()),
+                  responseFields(
+                      fieldWithPath("errorMessage").type(JsonFieldType.STRING).
+                          description("The error message describing the error that occurred"),
+                  )))
 
     when:
       shouldSucceed = true
@@ -114,18 +114,50 @@ class ExampleControllerTest extends AbstractControllerTest {
       result
           .andExpect(status().isOk())
           .andDo(
-          document('example-sometimes-success-get',
-              preprocessResponse(prettyPrint()),
-              responseFields(
-                  fieldWithPath("result").type(JsonFieldType.STRING).
-                      description("The result of a successful operation"),
-              )))
+              document('example-sometimes-success-get',
+                  preprocessResponse(prettyPrint()),
+                  responseFields(
+                      fieldWithPath("result").type(JsonFieldType.STRING).
+                          description("The result of a successful operation"),
+                  )))
+  }
+
+  def "Example test for documenting the s3 endpoint"() {
+    given:
+      given(s3Service.putFileContent(anyString(), anyString())).willAnswer {}
+      given(s3Service.getFileContent(anyString())).willReturn("Content from file")
+      def apiUrl = "/api/example/s3"
+
+      def request = new S3FileContentRequest(
+          "myFile.txt",
+          "Content from file"
+      )
+
+    when:
+      ObjectMapper objectMapper = new ObjectMapper()
+      ResultActions result = mockMvc.perform(
+          post(apiUrl).content(objectMapper.writeValueAsBytes(request)).contentType(MediaType.APPLICATION_JSON_VALUE))
+
+    then:
+      result
+          .andExpect(status().isOk())
+          .andDo(
+              document(
+                  "example-s3-storefile",
+                  preprocessResponse(prettyPrint()),
+                  responseFields(
+                      fieldWithPath("content")
+                          .type(JsonFieldType.STRING)
+                          .description("The content of the file that was stored")
+                  )
+              )
+          )
   }
 
   @Override
   protected List<Object> getControllersUnderTest() {
 
-    controller = new ExampleController(restTemplate, auroraMetrics, objectStorageService) {
+    controller = new ExampleController(restTemplate, auroraMetrics, s3Service) {
       @Override
       protected boolean performOperationThatMayFail() {
         return shouldSucceed

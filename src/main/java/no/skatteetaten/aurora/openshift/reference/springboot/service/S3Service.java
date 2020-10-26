@@ -16,28 +16,27 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Service
-public class ObjectStorageService {
+public class S3Service {
     private S3Client s3Client;
     private S3Properties.S3Bucket s3Bucket;
 
-    public ObjectStorageService(S3Properties s3Properties, S3Client s3Client) {
+    public S3Service(S3Properties s3Properties, S3Client s3Client) {
         this.s3Client = s3Client;
         this.s3Bucket = s3Properties.getBuckets().get("default");
     }
 
     public void putFileContent(String keyName, String content) {
-        File fileWithContent = writeFileContentToFile(keyName, content);
 
         withS3(s3 -> {
             var request = PutObjectRequest.builder()
                 .bucket(s3Bucket.getBucketName())
                 .key(getKeyName(keyName)).build();
 
-            s3.putObject(request, RequestBody.fromFile(fileWithContent));
+            s3.putObject(request, RequestBody.fromString(content));
         });
     }
 
-    public String getTextObject(String keyName) {
+    public String getFileContent(String keyName) {
         return withS3(s3 -> {
             var request = GetObjectRequest.builder()
                 .bucket(s3Bucket.getBucketName())
@@ -64,17 +63,6 @@ public class ObjectStorageService {
             return fn.apply(s3Client);
         } catch (Exception e) {
             throw new ObjectStorageException("An error occurred while communicating with S3 storage", e);
-        }
-    }
-
-    private static File writeFileContentToFile(String fileName, String content) {
-        try {
-            File tmpFile = new File(fileName);
-            FileOutputStream foutStream = new FileOutputStream(tmpFile);
-            foutStream.write(content.getBytes());
-            return tmpFile;
-        } catch (IOException e) {
-            throw new ObjectStorageException("Unable to write to temporary file when storing in S3", e);
         }
     }
 }
