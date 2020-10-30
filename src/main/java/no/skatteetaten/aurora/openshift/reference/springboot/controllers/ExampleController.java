@@ -68,7 +68,6 @@ public class ExampleController {
         storageService.putFileContent(request.getFileName(), request.getContent());
         String storedFileContent = storageService.getFileContent(request.getFileName());
         return new S3FileContentResponse(storedFileContent);
-
     }
 
     protected boolean performOperationThatMayFail() {

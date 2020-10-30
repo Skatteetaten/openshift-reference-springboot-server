@@ -1,18 +1,18 @@
 package no.skatteetaten.aurora.openshift.reference.springboot.service
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest
+import org.springframework.test.context.ContextConfiguration
 
 import io.findify.s3mock.S3Mock
-import io.zonky.test.db.AutoConfigureEmbeddedDatabase
-import spock.lang.Specification
+import no.skatteetaten.aurora.openshift.reference.springboot.ApplicationConfig
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest
+import spock.lang.Specification
 
-@SpringBootTest
-@AutoConfigureEmbeddedDatabase
-class S3ServiceTest extends Specification{
+@RestClientTest
+@ContextConfiguration(classes = [ApplicationConfig, S3Service])
+class S3ServiceTest extends Specification {
   @Autowired
   S3Client s3Client
 
@@ -20,6 +20,7 @@ class S3ServiceTest extends Specification{
   S3Service s3Service
 
   def s3Mock = new S3Mock.Builder().withInMemoryBackend().withPort(9000).build()
+
   def "Verify is able to store and retrieve object from minio"() {
     given:
       s3Mock.start()

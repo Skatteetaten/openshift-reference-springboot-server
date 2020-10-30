@@ -5,8 +5,8 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
-import no.skatteetaten.aurora.openshift.reference.springboot.controllers.errorhandling.ObjectStorageException;
 import no.skatteetaten.aurora.openshift.reference.springboot.service.dto.S3Properties;
+import no.skatteetaten.aurora.openshift.reference.springboot.service.exceptions.ObjectStorageException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
