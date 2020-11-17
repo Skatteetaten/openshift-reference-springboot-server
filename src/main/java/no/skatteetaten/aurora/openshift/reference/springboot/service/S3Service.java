@@ -1,8 +1,5 @@
 package no.skatteetaten.aurora.openshift.reference.springboot.service;
 
-import java.util.Random;
-import java.util.function.Consumer;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +27,11 @@ public class S3Service {
         S3Client s3Client = s3Config.getS3Client();
 
         try {
-                var request = PutObjectRequest.builder()
-                    .bucket(s3Bucket.getBucketName())
-                    .key(getKeyName(s3Bucket, keyName)).build();
+            var request = PutObjectRequest.builder()
+                .bucket(s3Bucket.getBucketName())
+                .key(getKeyName(s3Bucket, keyName)).build();
 
-                s3Client.putObject(request, RequestBody.fromString(content));
+            s3Client.putObject(request, RequestBody.fromString(content));
         } catch (Exception e) {
             throw new ObjectStorageException("An error occurred while communicating with S3 storage", e);
         }
