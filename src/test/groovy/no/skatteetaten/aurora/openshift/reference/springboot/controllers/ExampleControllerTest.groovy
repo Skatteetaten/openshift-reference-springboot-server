@@ -1,5 +1,6 @@
 package no.skatteetaten.aurora.openshift.reference.springboot.controllers
 
+import static org.mockito.ArgumentMatchers.anyBoolean
 import static org.mockito.ArgumentMatchers.anyString
 import static org.mockito.BDDMockito.given
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
@@ -124,13 +125,14 @@ class ExampleControllerTest extends AbstractControllerTest {
 
   def "Example test for documenting the s3 endpoint"() {
     given:
-      given(s3Service.putFileContent(anyString(), anyString())).willAnswer {}
-      given(s3Service.getFileContent(anyString())).willReturn("Content from file")
+      given(s3Service.putFileContent(anyString(), anyString(), anyBoolean())).willAnswer {}
+      given(s3Service.getFileContent(anyString(), anyBoolean())).willReturn("Content from file")
       def apiUrl = "/api/example/s3"
 
       def request = new S3FileContentRequest(
           "myFile.txt",
-          "Content from file"
+          "Content from file",
+          true
       )
 
     when:

@@ -1,10 +1,12 @@
 package no.skatteetaten.aurora.openshift.reference.springboot.service;
 
+import java.util.Random;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import no.skatteetaten.aurora.openshift.reference.springboot.service.dto.S3Configuration;
 import no.skatteetaten.aurora.openshift.reference.springboot.service.dto.S3Properties;
 import no.skatteetaten.aurora.openshift.reference.springboot.service.exceptions.ObjectStorageException;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -14,52 +16,49 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Service
 public class S3Service {
-    private S3Client s3Client;
-    private S3Properties.S3Bucket s3Bucket;
+    private S3Configuration defaultS3Configuration;
+    private S3Configuration otherS3Configuration;
 
-    public S3Service(S3Properties s3Properties, S3Client s3Client) {
-        this.s3Client = s3Client;
-        this.s3Bucket = s3Properties.getBuckets().get("default");
+    public S3Service(S3Configuration s3Configuration, @Qualifier("otherArea") S3Configuration otherS3Configuration) {
+        this.defaultS3Configuration = s3Configuration;
+        this.otherS3Configuration = otherS3Configuration;
     }
 
-    public void putFileContent(String keyName, String content) {
+    public void putFileContent(String keyName, String content, Boolean useDefaultBucketObjectArea) {
+        S3Configuration s3Config = useDefaultBucketObjectArea ? defaultS3Configuration : otherS3Configuration;
+        S3Properties.S3Bucket s3Bucket = s3Config.getBucket();
+        S3Client s3Client = s3Config.getS3Client();
 
-        withS3(s3 -> {
-            var request = PutObjectRequest.builder()
-                .bucket(s3Bucket.getBucketName())
-                .key(getKeyName(keyName)).build();
+        try {
+                var request = PutObjectRequest.builder()
+                    .bucket(s3Bucket.getBucketName())
+                    .key(getKeyName(s3Bucket, keyName)).build();
 
-            s3.putObject(request, RequestBody.fromString(content));
-        });
+                s3Client.putObject(request, RequestBody.fromString(content));
+        } catch (Exception e) {
+            throw new ObjectStorageException("An error occurred while communicating with S3 storage", e);
+        }
     }
 
-    public String getFileContent(String keyName) {
-        return withS3(s3 -> {
+    public String getFileContent(String keyName, Boolean useDefaultBucketObjectArea) {
+        S3Configuration s3Config = useDefaultBucketObjectArea ? defaultS3Configuration : otherS3Configuration;
+        S3Properties.S3Bucket s3Bucket = s3Config.getBucket();
+        S3Client s3Client = s3Config.getS3Client();
+
+        try {
             var request = GetObjectRequest.builder()
                 .bucket(s3Bucket.getBucketName())
-                .key(getKeyName(keyName)).build();
+                .key(getKeyName(s3Bucket, keyName)).build();
 
-            return s3.getObjectAsBytes(request).asUtf8String();
-        });
+            return s3Client.getObjectAsBytes(request).asUtf8String();
+        } catch (Exception e) {
+            throw new ObjectStorageException("An error occurred while communicating with S3 storage", e);
+        }
+
     }
 
-    private String getKeyName(String keyName) {
+    private String getKeyName(S3Properties.S3Bucket s3Bucket, String keyName) {
         return String.format("%s/%s", s3Bucket.getObjectPrefix(), keyName);
     }
 
-    private void withS3(Consumer<S3Client> fn) {
-        try {
-            fn.accept(s3Client);
-        } catch (Exception e) {
-            throw new ObjectStorageException("An error occurred while communicating with S3 storage", e);
-        }
-    }
-
-    private <T> T withS3(Function<S3Client, T> fn) {
-        try {
-            return fn.apply(s3Client);
-        } catch (Exception e) {
-            throw new ObjectStorageException("An error occurred while communicating with S3 storage", e);
-        }
-    }
 }

@@ -65,8 +65,8 @@ public class ExampleController {
 
     @PostMapping("/api/example/s3")
     public S3FileContentResponse uploadFile(@RequestBody S3FileContentRequest request) {
-        storageService.putFileContent(request.getFileName(), request.getContent());
-        String storedFileContent = storageService.getFileContent(request.getFileName());
+        storageService.putFileContent(request.getFileName(), request.getContent(), request.isUseDefaultBucketObjectArea());
+        String storedFileContent = storageService.getFileContent(request.getFileName(), request.isUseDefaultBucketObjectArea());
         return new S3FileContentResponse(storedFileContent);
     }
 

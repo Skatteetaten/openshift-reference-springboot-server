@@ -5,9 +5,12 @@ public class S3FileContentRequest {
     private String fileName;
     private String content;
 
-    public S3FileContentRequest(String fileName, String content) {
+    private boolean useDefaultBucketObjectArea;
+
+    public S3FileContentRequest(String fileName, String content, boolean useDefaultBucketObjectArea) {
         this.fileName = fileName;
         this.content = content;
+        this.useDefaultBucketObjectArea = useDefaultBucketObjectArea;
     }
 
     public S3FileContentRequest() {
@@ -27,5 +30,13 @@ public class S3FileContentRequest {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public boolean isUseDefaultBucketObjectArea() {
+        return useDefaultBucketObjectArea;
+    }
+
+    public void setUseDefaultBucketObjectArea(boolean useDefaultBucketObjectArea) {
+        this.useDefaultBucketObjectArea = useDefaultBucketObjectArea;
     }
 }

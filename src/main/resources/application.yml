@@ -36,11 +36,21 @@ logging:
       console: "%d [%-9.9thread] %-5level %logger %X - %msg %n%rEx{full}"
 
 s3:
+    objectareas:
+        default: "referanse-java"
+        anotherArea: "referanse-java2"
     buckets:
-        default:
+        referanse-java:
             serviceEndpoint: http://localhost:9000
             accessKey: minio
             secretKey: miniosecret
             bucketName: default
             objectPrefix: refapp
+            bucketRegion: us-east-1
+        referanse-java2:
+            serviceEndpoint: http://localhost:9000
+            accessKey: minio
+            secretKey: miniosecret
+            bucketName: default
+            objectPrefix: refapp2
             bucketRegion: us-east-1
