@@ -20,11 +20,6 @@ logging:
         apache.catalina: WARN
         hibernate: WARN
 
-s3:
-    objectareas:
-        default: "referanse-java"
-        anotherArea: "referanse-java2"
-
 ---
 spring:
   profiles: local

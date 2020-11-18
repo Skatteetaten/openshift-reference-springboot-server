@@ -30,31 +30,30 @@ public class ApplicationConfig {
     @Primary
     @Bean
     public S3Configuration defaultS3Client(
-        S3Properties s3Properties,
-        @Value("${s3.objectareas.default:referanse-java}") String defaultKey
+        S3Properties s3Properties
     ) {
-        S3Properties.S3Bucket defaultS3Bucket = s3Properties.getBuckets().get(defaultKey);
-        return new S3Configuration(baseS3Client(defaultS3Bucket), defaultS3Bucket);
+        return baseS3Configuration(s3Properties, "referanse-java2");
     }
 
     @Qualifier("otherArea")
     @Bean
     public S3Configuration otherS3Client(
-        S3Properties s3Properties,
-        @Value("${s3.objectareas.anotherArea:referanse-java2}") String defaultKey
+        S3Properties s3Properties
     ) {
-        S3Properties.S3Bucket otherS3Bucket = s3Properties.getBuckets().get(defaultKey);
-        return new S3Configuration(baseS3Client(otherS3Bucket), otherS3Bucket);
+        return baseS3Configuration(s3Properties, "referanse-java2");
     }
 
-    private S3Client baseS3Client(S3Properties.S3Bucket objectArea) {
-        return S3Client.builder()
+    private S3Configuration baseS3Configuration(S3Properties s3Properties, String objectAreaKey) {
+        S3Properties.S3Bucket objectArea = s3Properties.getBuckets().get(objectAreaKey);
+        S3Client client = S3Client.builder()
             .region(Region.of(objectArea.getBucketRegion()))
             .credentialsProvider(
                 StaticCredentialsProvider
                     .create(AwsBasicCredentials.create(objectArea.getAccessKey(), objectArea.getSecretKey()))
             ).endpointOverride(URI.create(objectArea.getServiceEndpoint()))
             .build();
+
+        return new S3Configuration(client, objectArea);
     }
 
 }
