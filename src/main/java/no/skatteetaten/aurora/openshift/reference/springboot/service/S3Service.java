@@ -15,10 +15,16 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 public class S3Service {
     private S3Configuration defaultS3Configuration;
     private S3Configuration otherS3Configuration;
+    private S3Properties s3Properties;
 
-    public S3Service(S3Configuration s3Configuration, @Qualifier("otherArea") S3Configuration otherS3Configuration) {
+    public S3Service(
+        S3Configuration s3Configuration,
+        @Qualifier("otherArea") S3Configuration otherS3Configuration,
+        S3Properties s3Properties
+    ) {
         this.defaultS3Configuration = s3Configuration;
         this.otherS3Configuration = otherS3Configuration;
+        this.s3Properties = s3Properties;
     }
 
     public void putFileContent(String keyName, String content, Boolean useDefaultBucketObjectArea) {
