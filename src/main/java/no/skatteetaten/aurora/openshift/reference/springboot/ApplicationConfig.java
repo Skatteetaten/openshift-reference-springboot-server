@@ -31,7 +31,7 @@ public class ApplicationConfig {
     public S3Configuration defaultS3Client(
         S3Properties s3Properties
     ) {
-        return baseS3Configuration(s3Properties, "referanse-java2");
+        return baseS3Configuration(s3Properties, "referanse-java");
     }
 
     @Qualifier("otherArea")
