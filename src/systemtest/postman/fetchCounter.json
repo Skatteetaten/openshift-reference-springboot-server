@@ -45,6 +45,7 @@
       "script": {
         "type": "text/javascript",
         "exec": [
+          "tests[\"Statuskode returnert er 200\"]= responseCode.code === 200; //responseCode.code",
           "var prev = pm.variables.get('prevResponse');",
           "var current =  pm.response.json().value;",
           "tests['Check that previous value (' + prev + ') is less than current value (' + current + ').'] = current > prev;",
