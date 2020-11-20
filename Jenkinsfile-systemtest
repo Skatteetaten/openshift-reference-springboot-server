@@ -6,7 +6,7 @@ def config = [
     affiliation             : 'paas',
     credentialsId           : "github",
     javaVersion             : 11,
-    openshiftSleepAfterSetup: 120,
+    openShiftSleepAfterSetup: 90,
     nodeVersion             : '10',
     testStages              : [[
                                    auroraConfigEnvironment: 'st-refapp',
