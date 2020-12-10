@@ -44,7 +44,7 @@
     <spring-boot-thin-layout.version>1.0.26.RELEASE</spring-boot-thin-layout.version>
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
 
-    <aws.sdk.version>2.15.40</aws.sdk.version>
+    <aws.sdk.version>2.15.43</aws.sdk.version>
     <embedded-database-spring-test.version>1.6.1</embedded-database-spring-test.version>
     <s3mock.version>0.2.6</s3mock.version>
   </properties>
