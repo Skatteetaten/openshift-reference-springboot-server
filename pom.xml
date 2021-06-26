@@ -40,6 +40,7 @@
     <s3mock.version>0.2.6</s3mock.version>
     <zonky.version>1.3.0</zonky.version>
     <jna.version>5.8.0</jna.version>
+    <scala-library.version>2.13.4</scala-library.version>
   </properties>
 
   <distributionManagement>
@@ -360,7 +361,7 @@
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
-      <version>2.13.4</version>
+      <version>${scala-library.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
